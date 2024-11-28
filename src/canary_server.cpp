@@ -213,7 +213,7 @@ void CanaryServer::logInfos() {
 #endif
 
 	logger.info("A server developed by: {}", ProtocolStatus::SERVER_DEVELOPERS);
-	logger.info("Fixed outfit bytes and optimized the wheel for old protocol, along with other performance improvements by BennyDz.");
+	logger.info("Fixed outfit bytes and optimized the wheel for old protocol, along with other performance improvements contribution ciaosoft.");
 
 }
 
