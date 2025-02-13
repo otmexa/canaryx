@@ -213,7 +213,7 @@ void CanaryServer::logInfos() {
 #endif
 
 	logger.info("A server developed by: {}", ProtocolStatus::SERVER_DEVELOPERS);
-	logger.info("Visit our website for updates, support, and resources: "
+	logger.info("Visit our website for updates, support by CiaoSoft, and resources: "
 	            "https://docs.opentibiabr.com/");
 }
 
