@@ -1802,7 +1802,7 @@ void PlayerWheel::saveKVModGrades() const {
 }
 
 /*
- * Functions for load and save player database informations
+ * Functions for load and save player database informations blob UPSERT
  */
 void PlayerWheel::loadDBPlayerSlotPointsOnLogin() {
 	auto resultString = fmt::format("SELECT `slot` FROM `player_wheeldata` WHERE `player_id` = {}", m_player.getGUID());
@@ -2004,9 +2004,7 @@ void PlayerWheel::resetPlayerData() {
 }
 
 void PlayerWheel::initializePlayerData() {
-	if (m_player.client && m_player.client->oldProtocol) {
-		return;
-	}
+
 
 	loadPlayerBonusData();
 }
