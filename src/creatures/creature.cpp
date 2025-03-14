@@ -585,10 +585,11 @@ if (lastHitCreature && thisPlayer) {
 			killer->onKilledMonster(thisMonster);
 		} else if (thisPlayer) {
 			bool isResponsible = mostDamageCreature == killer || (mostDamageCreatureMaster && mostDamageCreatureMaster == killer);
-			if (isResponsible) {
-				g_logger().info("onDeath: Ejecutando onKilledPlayer para {}, killer={}", thisPlayer->getName(), killer->getName());
-				killer->onKilledPlayer(thisPlayer, false);
-			}
+if (isResponsible && killer != lastHitCreature) { 
+    g_logger().info("onDeath: Ejecutando onKilledPlayer para {}, killer={}", thisPlayer->getName(), killer->getName());
+
+    killer->onKilledPlayer(thisPlayer, false);
+}
 
 			killer->removeAttacked(thisPlayer);
 		}
