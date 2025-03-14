@@ -503,24 +503,16 @@ void Creature::onDeath() {
 	const auto &thisMaster = getMaster();
 	const auto &thisMonster = getMonster();
 	std::shared_ptr<Creature> lastHitCreatureMaster;
-if (lastHitCreature && thisPlayer) {
-    /**
-     * @deprecated -- This is aquí para disparar los eventos onKill en Lua
-     */
-    g_logger().info("onDeath: Ejecutando deprecatedOnKilledCreature para {} (LastHitCreature)", lastHitCreature->getName());
-    lastHitCreature->deprecatedOnKilledCreature(thisCreature, true);
-
-    g_logger().info("onDeath: Ejecutando onKilledPlayer para {} (LastHitCreature={}, Master={})", 
-        thisPlayer->getName(), 
-        lastHitCreature->getName(), 
-        lastHitCreatureMaster ? lastHitCreatureMaster->getName() : "N/A");
-
-    lastHitUnjustified = lastHitCreature->onKilledPlayer(thisPlayer, true);
-    lastHitCreatureMaster = lastHitCreature->getMaster();
-} else {
-    lastHitCreatureMaster = nullptr;
-}
-
+	if (lastHitCreature && thisPlayer) {
+		/**
+		 * @deprecated -- This is here to trigger the deprecated onKill events in lua
+		 */
+		lastHitCreature->deprecatedOnKilledCreature(thisCreature, true);
+		lastHitUnjustified = lastHitCreature->onKilledPlayer(thisPlayer, true);
+		lastHitCreatureMaster = lastHitCreature->getMaster();
+	} else {
+		lastHitCreatureMaster = nullptr;
+	}
 
 	std::shared_ptr<Creature> mostDamageCreature = nullptr;
 
@@ -585,11 +577,9 @@ if (lastHitCreature && thisPlayer) {
 			killer->onKilledMonster(thisMonster);
 		} else if (thisPlayer) {
 			bool isResponsible = mostDamageCreature == killer || (mostDamageCreatureMaster && mostDamageCreatureMaster == killer);
-if (isResponsible && killer != lastHitCreature) { 
-    g_logger().info("onDeath: Ejecutando onKilledPlayer para {}, killer={}", thisPlayer->getName(), killer->getName());
-
-    killer->onKilledPlayer(thisPlayer, false);
-}
+			if (isResponsible && killer != lastHitCreature) { 	
+				killer->onKilledPlayer(thisPlayer, false);
+			}
 
 			killer->removeAttacked(thisPlayer);
 		}
