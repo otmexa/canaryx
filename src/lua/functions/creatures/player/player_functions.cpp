@@ -111,6 +111,8 @@ void PlayerFunctions::init(lua_State* L) {
 
 	Lua::registerMethod(L, "Player", "sendSpellCooldown", PlayerFunctions::luaPlayerSendSpellCooldown);
 	Lua::registerMethod(L, "Player", "sendSpellGroupCooldown", PlayerFunctions::luaPlayerSendSpellGroupCooldown);
+	Lua::registerMethod(L, "Player", "castSpell", PlayerFunctions::luaPlayerCastSpell);
+
 
 	Lua::registerMethod(L, "Player", "getMagicLevel", PlayerFunctions::luaPlayerGetMagicLevel);
 	Lua::registerMethod(L, "Player", "getBaseMagicLevel", PlayerFunctions::luaPlayerGetBaseMagicLevel);
@@ -1324,6 +1326,21 @@ int PlayerFunctions::luaPlayerSendSpellGroupCooldown(lua_State* L) {
 
 	return 1;
 }
+
+int PlayerFunctions::luaPlayerCastSpell(lua_State* L) {
+	// player:castSpell(words)
+    const auto& player = Lua::getUserdataShared<Player>(L, 1, "Player");
+    if (!player) {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    const std::string words = Lua::getString(L, 2);
+    Lua::pushBoolean(L, player->castSpell(words));
+    return 1;
+}
+
+
 
 int PlayerFunctions::luaPlayerGetMagicLevel(lua_State* L) {
 	// player:getMagicLevel()
