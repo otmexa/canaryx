@@ -7950,6 +7950,17 @@ void Player::sendSpellGroupCooldown(SpellGroup_t groupId, uint32_t time) const {
 	}
 }
 
+bool Player::castSpell(const std::string& words) {
+    const auto& spell = g_spells().getInstantSpellByWords(words);
+    if (!spell || !canCast(spell)) {
+        return false;
+    }
+
+    g_spells().castInstantSpell(this, spell, words);
+    return true;
+}
+
+
 void Player::sendUseItemCooldown(uint32_t time) const {
 	if (client) {
 		client->sendUseItemCooldown(time);
